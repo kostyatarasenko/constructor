@@ -17,6 +17,9 @@
     padding: 20px;
 
     span.card-title {
+      max-width: 250px;
+      line-height: 23px;
+      overflow: hidden;
       margin-bottom: 18px;
       font-family: "Open-Sans Bold", sans-serif;
       font-size: 18px;
@@ -25,6 +28,9 @@
 
     span.card-description {
       margin-bottom: 8px;
+      text-overflow: ellipsis;
+      max-width: 250px;
+      overflow: hidden;
       font-family: "Open-Sans Regular", sans-serif;
       font-size: 13px;
       color: #90A4BD;
@@ -46,4 +52,14 @@
       }
     }
   }
+}
+
+.course-description-tooltip {
+  padding: 15px;
+  font-family: "Open-Sans Regular", sans-serif !important;
+  font-size: 13px;
+  background: rgba(65, 71, 82, .7) !important;
+  border-radius: 8px;
+  max-width: 400px;
+  word-wrap: break-word;
 }

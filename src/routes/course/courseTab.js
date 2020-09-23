@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
 
 import Card from '@components/common/Card';
 import CreationModal from '@components/CreationModal';
@@ -66,36 +67,40 @@ const LessonTab = ({ onMounted }) => {
   });
 
   const mockLessonsList = useMemo(() => lessonsList.map(({ id, image, name, description }) => (
-    <ActionCard
-      key={id}
-      title={name}
-      description={description}
-      image={image}
-      lessonsTitleText={t('ActionCard.LessonsTitle')}
-      actions={[{
-        id: 'duplicate-action',
-        name: t('ActionCard.DuplicateLessonTitle'),
-        onClick: handleDuplicateLesson.bind({}, id),
-      }, {
-        id: 'delete-action',
-        name: t('ActionCard.DeleteLessonTitle'),
-        onClick: handleOpenDeletingModal.bind({}, id),
-      }]}
-      onClick={handleRedirect.bind({}, id)}
-    />
+    <Col md={3}>
+      <ActionCard
+        key={id}
+        title={name}
+        description={description}
+        image={image}
+        lessonsTitleText={t('ActionCard.LessonsTitle')}
+        actions={[{
+          id: 'duplicate-action',
+          name: t('ActionCard.DuplicateLessonTitle'),
+          onClick: handleDuplicateLesson.bind({}, id),
+        }, {
+          id: 'delete-action',
+          name: t('ActionCard.DeleteLessonTitle'),
+          onClick: handleOpenDeletingModal.bind({}, id),
+        }]}
+        onClick={handleRedirect.bind({}, id)}
+      />
+    </Col>
   )), [lessonsList]);
 
   return (
-    <div className="coursesTab cards-container">
-      <Card
-        className="big"
-        onClick={handleOpenCreationModal}
-      >
-        <div className="creation-block-container">
-          <img src={FeatherIcon} alt="feather" />
-          <span>{t('LessonsRoute.CreateNewLessonTitle')}</span>
-        </div>
-      </Card>
+    <Row className="coursesTab">
+      <Col md={3}>
+        <Card
+          className="big"
+          onClick={handleOpenCreationModal}
+        >
+          <div className="creation-block-container">
+            <img src={FeatherIcon} alt="feather" />
+            <span>{t('LessonsRoute.CreateNewLessonTitle')}</span>
+          </div>
+        </Card>
+      </Col>
       {mockLessonsList}
       <CreationModal
         visibility={visibilityCreationModal}
@@ -123,7 +128,7 @@ const LessonTab = ({ onMounted }) => {
           actionCancelCreation: t('LessonWarningModalDeleteAction.ActionCancelDelete'),
         }}
       />
-    </div>
+    </Row>
   );
 };
 

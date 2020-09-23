@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import Navbar from '@components/Navbar';
@@ -15,7 +14,7 @@ const Courses = () => {
       <Navbar
         title={t('CoursesRoute.Title')}
       />
-      <Container>
+      <>
         <Tabs
           tabs={[{
             index: 0,
@@ -23,7 +22,7 @@ const Courses = () => {
             name: t('CoursesRoute.Tab1'),
           }]}
         />
-      </Container>
+      </>
     </>
   );
 };

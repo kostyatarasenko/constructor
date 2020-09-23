@@ -18,7 +18,7 @@ const patterns = [Pattern1, Pattern2, Pattern3];
 
 const Course = () => {
   const { t } = useTranslation();
-  const { goBack } = useHistory();
+  const { push } = useHistory();
 
   const [currentCourse, setCurrentCourse] = useState(null);
 
@@ -30,9 +30,9 @@ const Course = () => {
     <>
       <Navbar
         title={t('LessonsRoute.Title')}
-        goBack={goBack}
+        goBack={() => push('/courses')}
       />
-      <Container>
+      <>
         {
           currentCourse ? (
             <div className="course-block-container">
@@ -69,7 +69,7 @@ const Course = () => {
             name: t('LessonsRoute.Tab1'),
           }]}
         />
-      </Container>
+      </>
     </>
   );
 };

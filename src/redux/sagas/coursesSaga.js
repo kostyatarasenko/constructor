@@ -50,6 +50,7 @@ function* createCourse({ payload: { image = null, description = '', name = '', l
       name,
       lessons: lessons || [],
     });
+    yield call(getCourses);
     yield put({
       type: CREATE_COURSE_FULFILLED,
       payload: {

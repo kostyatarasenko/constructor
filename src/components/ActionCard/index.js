@@ -1,5 +1,6 @@
 import React from 'react';
 import Dropdown from 'rc-dropdown';
+import ReactTooltip from 'react-tooltip';
 
 import Card from '@components/common/Card';
 import Menu from '@components/common/Menu';
@@ -18,7 +19,7 @@ const ActionCard = ({
   title = '',
   description = '',
   lessonsTitleText = '',
-  lessonsCount = 0,
+  lessonsCount,
   actions,
   onClick,
 }) => {
@@ -38,13 +39,13 @@ const ActionCard = ({
         <span className="card-title">
           {title}
         </span>
-        <span className="card-description">
+        <span data-tip={description} className="card-description">
           {description}
         </span>
       </div>
       <div className="card-footer-container">
         {
-          lessonsCount ? (
+          typeof lessonsCount === 'number' ? (
             <span className="lessons-title">
               {lessonsTitleText} <b className="lessons-count">{lessonsCount}</b>
             </span>
@@ -56,6 +57,7 @@ const ActionCard = ({
             <Menu actions={actions} />
           )}
           animation="slide-up"
+          onOverlayClick={() => alert()}
         >
           <div
             className="dropdown-trigger-container"
@@ -64,6 +66,12 @@ const ActionCard = ({
             <img src={MoreHorizontal} alt="more-horizontal" />
           </div>
         </Dropdown>
+        <ReactTooltip
+          className="course-description-tooltip"
+          arrowColor="transparent"
+          place="right"
+          multiline
+        />
       </div>
     </Card>
   );

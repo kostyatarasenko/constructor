@@ -93,22 +93,9 @@
     }
 
     .modal-inputs-container {
+      display: flex;
+      flex-direction: column;
       padding: 0 30px;
-
-      input.modal-input {
-        width: 100%;
-        padding-bottom: 6px;
-        margin-bottom: 36px;
-        font-family: "Open-Sans Bold", sans-serif;
-        font-size: 18px;
-        border: 0;
-        border-bottom: 1px solid #D3D8DD;
-        color: #90A4BD;
-
-        &::placeholder {
-          color: #90A4BD;
-        }
-      }
 
       .MuiFormControl-root {
         margin-top: 8px;
@@ -118,6 +105,10 @@
         font-family: "Open-Sans Bold", sans-serif;
         font-size: 18px;
         color: #90A4BD;
+      }
+
+      .MuiFormControl-fullWidth {
+        width: 500px;
       }
 
       .MuiInput-formControl {

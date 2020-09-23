@@ -35,7 +35,7 @@
     "LessonModal.ActionCreate": "Создать урок",
     "LessonModal.ActionCancelCreation": "Отмена",
 
-    "LessonWarningModalDeleteAction.Title": "Удалить курс?",
+    "LessonWarningModalDeleteAction.Title": "Удалить урок?",
     "LessonWarningModalDeleteAction.Description": "Урок и все файлы удалятся из конструктора",
     "LessonWarningModalDeleteAction.ActionDelete": "Удалить",
     "LessonWarningModalDeleteAction.ActionCancelDelete": "Отмена",

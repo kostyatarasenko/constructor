@@ -1,7 +1,7 @@
 button.common {
   padding: 10px 15px;
   border-radius: 25px;
-  font-family: "Open-Sanc Regular", sans-serif;
+  font-family: "Open-Sans Regular", sans-serif;
   background: #fff;
   color: #414752;
   cursor: pointer;
@@ -25,10 +25,13 @@ button.common {
   &.creation {
     border: 3px solid #FFC796;
     color: #FF922D;
+    font-size: 18px;
   }
 
   &.transparent {
     padding: 4px 15px;
     border: 0;
+    color: #414752;
+    font-size: 18px;
   }
 }
