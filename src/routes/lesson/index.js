@@ -3,6 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import DragCard from '@components/common/DragCard';
+import Constructor from '@components/common/Constructor';
 
 import atextIcon from '@assets/icons/atext.svg';
 
@@ -28,11 +29,9 @@ const Lesson = () => {
             ))
           }
         </aside>
-        <div id="constructor">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid amet aperiam at, debitis est et ex expedita illo illum ipsum iure magni molestias nihil nostrum placeat sit vel voluptate, voluptatem.
-        </div>
+        <Constructor />
         <aside id="additional-actions">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto aspernatur dicta hic maiores non, vel. Commodi dolores ea eveniet, ipsum molestias nemo omnis reiciendis rem rerum sit soluta unde?
+          Lorem
         </aside>
       </div>
     </DndProvider>
