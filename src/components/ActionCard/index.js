@@ -57,7 +57,6 @@ const ActionCard = ({
             <Menu actions={actions} />
           )}
           animation="slide-up"
-          onOverlayClick={() => alert()}
         >
           <div
             className="dropdown-trigger-container"

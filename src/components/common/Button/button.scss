@@ -5,6 +5,8 @@ button.common {
   background: #fff;
   color: #414752;
   cursor: pointer;
+  font-weight: 600;
+  transition: 200ms ease-in-out;
 
   &:focus {
     outline: none;
@@ -18,14 +20,24 @@ button.common {
     margin-top: 20px;
     border-radius: 40px;
     border: 1px solid #90A4BD;
+    font-weight: 400;
     background: #E0E7EF;
     cursor: pointer;
   }
 
   &.creation {
+    width: 170px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     border: 3px solid #FFC796;
     color: #FF922D;
     font-size: 18px;
+
+    &:hover {
+      border-color: #FFB800;
+      color: #FFB800;
+    }
   }
 
   &.transparent {
@@ -33,5 +45,9 @@ button.common {
     border: 0;
     color: #414752;
     font-size: 18px;
+
+    &:hover {
+      color: #676C74;
+    }
   }
 }

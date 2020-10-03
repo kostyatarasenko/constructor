@@ -61,41 +61,37 @@ const CoursesTab = () => {
   });
 
   const mockCoursesList = useMemo(() => coursesList.map(({ id, image, name, description, lessons }) => (
-    <Col md={3}>
-      <ActionCard
-        key={id}
-        title={name}
-        description={description}
-        image={image}
-        lessonsTitleText={t('ActionCard.LessonsTitle')}
-        lessonsCount={lessons.length}
-        actions={[{
-          id: 'duplicate-action',
-          name: t('ActionCard.DuplicateCourseTitle'),
-          onClick: handleDuplicateCourse.bind({}, id),
-        }, {
-          id: 'delete-action',
-          name: t('ActionCard.DeleteCourseTitle'),
-          onClick: handleOpenDeletingModal.bind({}, id),
-        }]}
-        onClick={handleRedirect.bind({}, id)}
-      />
-    </Col>
+    <ActionCard
+      key={id}
+      title={name}
+      description={description}
+      image={image}
+      lessonsTitleText={t('ActionCard.LessonsTitle')}
+      lessonsCount={lessons.length}
+      actions={[{
+        id: 'duplicate-action',
+        name: t('ActionCard.DuplicateCourseTitle'),
+        onClick: handleDuplicateCourse.bind({}, id),
+      }, {
+        id: 'delete-action',
+        name: t('ActionCard.DeleteCourseTitle'),
+        onClick: handleOpenDeletingModal.bind({}, id),
+      }]}
+      onClick={handleRedirect.bind({}, id)}
+    />
   )), [coursesList]);
 
   return (
-    <Row className="coursesTab">
-      <Col md={3}>
-        <Card
-          className="big"
-          onClick={handleOpenCreationModal}
-        >
-          <div className="creation-block-container">
-            <img src={FeatherIcon} alt="feather" />
-            <span>{t('CoursesRoute.CreateNewCourseTitle')}</span>
-          </div>
-        </Card>
-      </Col>
+    <div className="coursesTab cards-container">
+      <Card
+        className="big"
+        onClick={handleOpenCreationModal}
+      >
+        <div className="creation-block-container">
+          <img src={FeatherIcon} alt="feather" />
+          <span>{t('CoursesRoute.CreateNewCourseTitle')}</span>
+        </div>
+      </Card>
       {mockCoursesList}
       <CreationModal
         visibility={visibilityCreationModal}
@@ -123,7 +119,7 @@ const CoursesTab = () => {
           actionCancelCreation: t('CourseWarningModalDeleteAction.ActionCancelDelete'),
         }}
       />
-    </Row>
+    </div>
   );
 };
 
