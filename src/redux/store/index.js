@@ -13,7 +13,7 @@ const store = configureStore({
   reducer: persistReducer({
     key: 'root',
     storage,
-    blacklist: ['error'],
+    blacklist: ['error', 'course', 'courses'],
   }, rootReducer),
   middleware: [
     _isDev_ && logger,

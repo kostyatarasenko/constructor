@@ -50,4 +50,11 @@ button.common {
       color: #676C74;
     }
   }
+
+  &.block-action {
+    border: 0;
+    color: #9ABDFC;
+    padding: 44px 0 0 0;
+    background: transparent;
+  }
 }

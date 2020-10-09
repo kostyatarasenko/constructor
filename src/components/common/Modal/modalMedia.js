@@ -3,6 +3,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import Button from '@components/common/Button';
 
 import { convertToMegaBytes } from '@utils/sizeConvert';
+import { uploadFile, refreshToken } from '../../../redux/api/googleDrive';
 
 import PreloadedMedia from '@assets/images/Modal/preloadedmedia.png';
 
@@ -26,17 +27,42 @@ const ModalMedia = ({
     hiddenFileInput.current.click();
   }, []);
 
-  const handleChooseFile = useCallback((e) => {
+  const handleChooseFile = useCallback(async (e) => {
     if (e.target.files.length) {
       const file = e.target.files[0];
       if (convertToMegaBytes(file.size) < 5000) {
-        setState({
-          ...state,
-          info: file.name,
-          image: file.name,
-          error: null,
+        let response = await uploadFile({
+          file,
+          folderID: JSON.parse(localStorage.getItem('folders')).image
         });
-        onChooseImage(file.name);
+        if (response.status !== 200) {
+          const refreshTokenResponse = await refreshToken(localStorage.getItem('refresh_token'));
+
+          if (refreshTokenResponse) {
+            response = await uploadFile({
+              file,
+              folderID: JSON.parse(localStorage.getItem('folders')).image
+            });
+            const fileJson = await response.json();
+            onChooseImage(fileJson.webContentLink);
+            setState({
+              ...state,
+              info: file.name,
+              image: fileJson.webContentLink,
+              error: null,
+            });
+          }
+        } else {
+          const fileJson = await response.json();
+          onChooseImage(fileJson.webContentLink);
+          setState({
+            ...state,
+            info: file.name,
+            image: fileJson.webContentLink,
+            error: null,
+          });
+        }
+
       } else {
         setState({
           ...state,

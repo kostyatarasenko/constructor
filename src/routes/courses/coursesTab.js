@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Row, Col } from 'react-bootstrap';
 
 import Card from '@components/common/Card';
 import CreationModal from '@components/CreationModal';
@@ -23,15 +22,23 @@ const CoursesTab = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  useEffect(() => {
-    dispatch(getCourses());
-  }, []);
-
   const [visibilityCreationModal, setVisibilityCreationModal] = useState(false);
   const [visibilityDeletingModal, setVisibilityDeletingModal] = useState(false);
   const [courseId, setCourseId] = useState(null);
+  const [isPending, setPending] = useState(false);
+
+  useEffect(() => {
+    setPending(true);
+    dispatch(getCourses());
+  }, []);
 
   const coursesList = useSelector((store) => store.courses.coursesList);
+
+  useEffect(() => {
+    if (coursesList.length) {
+      setPending(false);
+    }
+  }, [coursesList]);
 
   const handleOpenCreationModal = useCallback(() => {
     setVisibilityCreationModal(true);
@@ -82,44 +89,50 @@ const CoursesTab = () => {
   )), [coursesList]);
 
   return (
-    <div className="coursesTab cards-container">
-      <Card
-        className="big"
-        onClick={handleOpenCreationModal}
-      >
-        <div className="creation-block-container">
-          <img src={FeatherIcon} alt="feather" />
-          <span>{t('CoursesRoute.CreateNewCourseTitle')}</span>
-        </div>
-      </Card>
-      {mockCoursesList}
-      <CreationModal
-        visibility={visibilityCreationModal}
-        onSubmit={handleCreateCourse}
-        onClose={setVisibilityCreationModal}
-        localization={{
-          title: t('CourseModal.Title'),
-          mediaTitle: t('CourseModal.MediaTitle'),
-          inputFileTitle: t('CourseModal.InputFileTitle'),
-          inputFileSize: t('CourseModal.InputFileSize'),
-          inputPlaceholderName: t('CourseModal.InputPlaceholderName'),
-          inputPlaceholderDescription: t('CourseModal.InputPlaceholderDescription'),
-          actionCreate: t('CourseModal.ActionCreate'),
-          actionCancelCreation: t('CourseModal.ActionCancelCreation'),
-        }}
-      />
-      <DeletingModal
-        visibility={visibilityDeletingModal}
-        onSubmit={handleDeleteCourse}
-        onClose={setVisibilityDeletingModal}
-        localization={{
-          title: t('CourseWarningModalDeleteAction.Title'),
-          description: t('CourseWarningModalDeleteAction.Description'),
-          actionCreate: t('CourseWarningModalDeleteAction.ActionDelete'),
-          actionCancelCreation: t('CourseWarningModalDeleteAction.ActionCancelDelete'),
-        }}
-      />
-    </div>
+    <>
+      {
+        !isPending ? (
+          <div className="coursesTab cards-container">
+            <Card
+              className="big"
+              onClick={handleOpenCreationModal}
+            >
+              <div className="creation-block-container">
+                <img src={FeatherIcon} alt="feather" />
+                <span>{t('CoursesRoute.CreateNewCourseTitle')}</span>
+              </div>
+            </Card>
+            {mockCoursesList}
+            <CreationModal
+              visibility={visibilityCreationModal}
+              onSubmit={handleCreateCourse}
+              onClose={setVisibilityCreationModal}
+              localization={{
+                title: t('CourseModal.Title'),
+                mediaTitle: t('CourseModal.MediaTitle'),
+                inputFileTitle: t('CourseModal.InputFileTitle'),
+                inputFileSize: t('CourseModal.InputFileSize'),
+                inputPlaceholderName: t('CourseModal.InputPlaceholderName'),
+                inputPlaceholderDescription: t('CourseModal.InputPlaceholderDescription'),
+                actionCreate: t('CourseModal.ActionCreate'),
+                actionCancelCreation: t('CourseModal.ActionCancelCreation'),
+              }}
+            />
+            <DeletingModal
+              visibility={visibilityDeletingModal}
+              onSubmit={handleDeleteCourse}
+              onClose={setVisibilityDeletingModal}
+              localization={{
+                title: t('CourseWarningModalDeleteAction.Title'),
+                description: t('CourseWarningModalDeleteAction.Description'),
+                actionCreate: t('CourseWarningModalDeleteAction.ActionDelete'),
+                actionCancelCreation: t('CourseWarningModalDeleteAction.ActionCancelDelete'),
+              }}
+            />
+          </div>
+        ) : null
+      }
+    </>
   );
 };
 

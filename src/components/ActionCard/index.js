@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Dropdown from 'rc-dropdown';
 import ReactTooltip from 'react-tooltip';
 
@@ -33,7 +33,7 @@ const ActionCard = ({
       onClick={onClick}
     >
       <div className="card-image-container">
-        <img src={image || patterns[rand(0, 2)]} alt="course" />
+        <img src={image || useMemo(() => patterns[rand(0, 2)], [])} alt="course" />
       </div>
       <div className="card-description-container">
         <span className="card-title">

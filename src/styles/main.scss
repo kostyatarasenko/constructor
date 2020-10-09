@@ -11,10 +11,12 @@
 @import "../components/common/Button/button";
 @import "../components/common/DragCard/dragCard";
 @import "../components/common/Constructor/constructor";
+@import "../components/common/Modal/modal";
 
 @import "../components/Navbar/navbar";
-@import "../components/common/Modal/modal";
 @import "../components/ActionCard/actionCard";
+
+@import "src/components/Block/block";
 
 @import "../routes/courses/courses";
 @import "../routes/course/course";

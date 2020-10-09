@@ -78,10 +78,6 @@ function* deleteLesson({ payload: { courseId, lessonId }}) {
     const courseSnapshot = yield call(firestore.getDocument, `courses/${courseId}`);
     const course = courseSnapshot.data();
     const updatedLessons = course.lessons.filter(({ id }) => lessonId !== id);
-    console.log({
-      ...course,
-      lessons: updatedLessons,
-    });
     yield call(firestore.setDocument, `courses/${courseId}`, {
       ...course,
       lessons: updatedLessons,
@@ -117,10 +113,6 @@ function* duplicateLesson({ payload: { courseId, lessonId }}) {
         }),
       }
     ];
-    console.log({
-      ...course,
-      lessons: updatedLessons,
-    });
     yield call(firestore.setDocument, `courses/${courseId}`, {
       ...course,
       lessons: updatedLessons,
