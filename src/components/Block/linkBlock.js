@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import Center from '@assets/images/blocks/Link/centered-icon.svg';
+import CenterActive from '@assets/images/blocks/Link/centered-icon-active.svg';
 import Left from '@assets/images/blocks/Link/left-icon.svg';
+import LeftActive from '@assets/images/blocks/Link/left-icon-active.svg';
 
 const LinkBlock = ({ onStateChange, id, preloadedState, actionsRef }) => {
   const initialState = {
@@ -13,7 +15,10 @@ const LinkBlock = ({ onStateChange, id, preloadedState, actionsRef }) => {
   const [state, setState] = useState(preloadedState || initialState);
   useEffect(() => {
     const center = document.createElement('div');
-    center.innerHTML = `<img class="link-left-icon" style="margin-right: 20px" src=${Left} /><img class="link-center-icon" src=${Center} />`;
+    center.innerHTML = `
+<img class="link-left-icon" style="margin-right: 20px" src=${state.align === 'left' ? LeftActive : Left} />
+<img class="link-center-icon" src=${state.align === 'center' ? CenterActive : Center} />
+`;
     center.style.marginRight = '60px';
     if (!actionsRef.current.children.length) {
       actionsRef.current.append(center);
@@ -30,7 +35,7 @@ const LinkBlock = ({ onStateChange, id, preloadedState, actionsRef }) => {
         align: 'center',
       }));
     });
-  }, [actionsRef.current]);
+  }, [actionsRef.current, state]);
 
   useEffect(() => {
     onStateChange(id, state);

@@ -46,6 +46,7 @@ function* createLesson({ payload: { courseId, lesson }}) {
     if (!course.lessons.length) {
       updatedLessons = [{
         id: 0,
+        content: [],
         ...lesson,
       }];
     } else {
@@ -53,6 +54,7 @@ function* createLesson({ payload: { courseId, lesson }}) {
         ...course.lessons,
         {
           id: course.lessons[course.lessons.length - 1].id++,
+          content: [],
           ...lesson,
         }
       ];

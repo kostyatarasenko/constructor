@@ -64,7 +64,7 @@ const LessonTab = ({ onMounted }) => {
   }, []);
 
   const handleRedirect = useCallback((id) => {
-    history.push(`course/${id}`);
+    history.push(`lesson/${courseId}/${id}`);
   });
 
   const mockLessonsList = useMemo(() => lessonsList.map(({ id, image, name, description }) => (

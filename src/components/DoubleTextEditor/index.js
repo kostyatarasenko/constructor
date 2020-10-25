@@ -4,26 +4,32 @@ import 'draft-js/dist/Draft.css';
 import Dropdown from 'rc-dropdown';
 import Left from '@assets/images/blocks/Link/left-icon.svg';
 import Center from '@assets/images/blocks/Link/centered-icon.svg';
+import LeftActive from '@assets/images/blocks/Link/left-icon-active.svg';
+import CenterActive from '@assets/images/blocks/Link/centered-icon-active.svg';
 import Move from '@assets/images/blocks/move.svg';
 import Copy from '@assets/images/blocks/copy.svg';
 import Delete from '@assets/images/blocks/delete.svg';
 import TextColor from '@assets/images/blocks/Editor/text-color.svg';
+import TextColorActive from '@assets/images/blocks/Editor/text-color-active.svg';
 import TextItalic from '@assets/images/blocks/Editor/text-italic.svg';
+import TextItalicActive from '@assets/images/blocks/Editor/text-italic-active.svg';
 import TextBold from '@assets/images/blocks/Editor/text-bold.svg';
+import TextBoldActive from '@assets/images/blocks/Editor/text-bold-active.svg';
 import Fzplus from '@assets/images/blocks/Editor/fzplus.svg';
 import Fzminus from '@assets/images/blocks/Editor/fzminus.svg';
 import Bg from '@assets/images/blocks/Editor/bg.svg';
-import Eye from '@assets/images/blocks/eye.svg';
-import EyeOff from '@assets/images/blocks/eye-off.svg';
-import ArrowDown from '@assets/images/blocks/Editor/arrow-down.svg';
+import BgActive from '@assets/images/blocks/Editor/bg-active.svg';
 import ArrowUp from '@assets/images/blocks/Editor/arrow-up.svg';
+import ArrowDown from '@assets/images/blocks/Editor/arrow-down.svg';
 import Lamp from '@assets/images/blocks/Editor/lamp.svg';
 import Book from '@assets/images/blocks/Editor/book.svg';
+import Eye from '@assets/images/blocks/eye.svg';
+import EyeOff from '@assets/images/blocks/eye-off.svg';
 
 class RichEditorExample extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = this.props.preloadedState || {
       editorState: EditorState.createEmpty(),
       align: 'center',
       backgroundColor: '#fff',
@@ -31,9 +37,13 @@ class RichEditorExample extends React.Component {
       visibleForStudent: true,
       blockType: 'regular',
     };
+    this.myRef = React.createRef();
+    this.blockRef = React.createRef();
 
     this.focus = () => this.refs.editor.focus();
-    this.onChange = (editorState) => this.setState({ editorState });
+    this.onChange = (editorState) => this.setState({ editorState }, () => {
+      this.props.onStateChange(this.props.id, this.state);
+    });
 
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
     this.onTab = (e) => this._onTab(e);
@@ -80,6 +90,8 @@ class RichEditorExample extends React.Component {
     const selection = editorState.getSelection();
     this.setState({
       color: toggledColor,
+    }, () => {
+      this.props.onStateChange(this.props.id, this.state);
     });
 
     // Let's just allow one color at a time. Turn off all active colors.
@@ -115,24 +127,60 @@ class RichEditorExample extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.blockType === 'rule') {
-      const el = document.querySelector('.rule');
-      if (el.children.length === 1) {
-        const newEl = document.createElement('img');
-        newEl.setAttribute('src', Book);
-        newEl.setAttribute('class', 'rule-icon');
-        newEl.style.marginRight = '40px';
-        newEl.style.marginLeft = '30px';
-        el.prepend(newEl);
+    if (this.blockRef.current) {
+      const span = this.blockRef.current.querySelector('span[data-text="true"]');
+      if (span) {
+        span.style.color = (() => {
+          if (this.state.color === 'darkGrey') {
+            return '#404753';
+          } else if (this.state.color === 'darkBlue') {
+            return '#113A7B';
+          } else if (this.state.color === 'blue') {
+            return '#0053D7';
+          } else if (this.state.color === 'lightBlue') {
+            return '#2C82FF';
+          } else if (this.state.color === 'grey') {
+            return '#8CA4C0';
+          } else if (this.state.color === 'orange') {
+            return '#FF8C00';
+          } else if (this.state.color === 'red') {
+            return '#DC0000';
+          } else {
+            return '#404753';
+          }
+        })();
       }
-    } else if (this.state.blockType === 'regular') {
-      const reg = document.querySelector('.regular');
-      if (reg.children.length === 2) {
-        for (let i = 0; i < reg.children.length; i++) {
-          if (reg.children[i].tagName === 'DIV') {
-            const ss = reg.children[i];
-            reg.innerHTML = '';
-            reg.append(ss);
+      if (this.state.blockType === 'rule') {
+        const el = this.blockRef.current;
+        if (el.children.length === 1) {
+          const newEl = document.createElement('img');
+          newEl.setAttribute('src', Book);
+          newEl.setAttribute('class', 'rule-icon');
+          newEl.style.marginRight = '40px';
+          newEl.style.marginLeft = '30px';
+          newEl.style.marginTop = '15px';
+          el.prepend(newEl);
+          this.setState({
+            align: 'left'
+          }, () => {
+            this.props.onStateChange(this.props.id, this.state);
+          });
+          setTimeout(function () {
+            this.toggleColor('blue');
+            this.toggleBlockType('header-two');
+          }.bind(this), 0);
+        }
+      } else if (this.state.blockType === 'regular') {
+        const reg = this.blockRef.current;
+        if (reg.children.length === 2) {
+          this.toggleColor('blue');
+          this.toggleBlockType('header-two');
+          for (let i = 0; i < reg.children.length; i++) {
+            if (reg.children[i].tagName === 'DIV') {
+              const ss = reg.children[i];
+              reg.innerHTML = '';
+              reg.append(ss);
+            }
           }
         }
       }
@@ -141,7 +189,11 @@ class RichEditorExample extends React.Component {
 
   render() {
     const { editorState } = this.state;
-    const editor = document.querySelector('.RichEditor-root');
+    let editor;
+    if (this.myRef.current) {
+      editor = this.myRef.current;
+      editor.style.backgroundColor = this.state.backgroundColor;
+    }
 
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
@@ -179,6 +231,8 @@ class RichEditorExample extends React.Component {
                        onClick={() => {
                          this.setState({
                            blockType: 'regular'
+                         }, () => {
+                           this.props.onStateChange(this.props.id, this.state);
                          });
                        }}
                   >
@@ -191,6 +245,8 @@ class RichEditorExample extends React.Component {
                        onClick={() => {
                          this.setState({
                            blockType: 'rule'
+                         }, () => {
+                           this.props.onStateChange(this.props.id, this.state);
                          });
                        }}
                   >
@@ -241,7 +297,13 @@ class RichEditorExample extends React.Component {
                 )}
               >
                 <div style={{ marginRight: 22 }}>
-                  <img src={TextColor} alt=""/>
+                  {
+                    this.state.color === 'darkGrey' ? (
+                      <img src={TextColor} alt=""/>
+                    ) : (
+                      <img src={TextColorActive} alt=""/>
+                    )
+                  }
                   <div style={{ height: 20, position: 'relative' }}>
                     <div style={{
                       position: 'absolute',
@@ -285,6 +347,8 @@ class RichEditorExample extends React.Component {
                       <div onClick={() => {
                         this.setState({
                           backgroundColor: '#fff',
+                        }, () => {
+                          this.props.onStateChange(this.props.id, this.state);
                         });
                         editor.style.backgroundColor = '#fff';
                       }} style={{
@@ -298,36 +362,48 @@ class RichEditorExample extends React.Component {
                       <div onClick={() => {
                         this.setState({
                           backgroundColor: '#F3F5F9',
+                        },() => {
+                          this.props.onStateChange(this.props.id, this.state);
                         });
                         editor.style.backgroundColor = '#F3F5F9';
                       }} style={{ marginRight: 15, height: 14, width: 14, background: '#F3F5F9', borderRadius: 10 }}/>
                       <div onClick={() => {
                         this.setState({
                           backgroundColor: '#BFCFE2',
+                        }, () => {
+                          this.props.onStateChange(this.props.id, this.state);
                         });
                         editor.style.backgroundColor = '#BFCFE2';
                       }} style={{ marginRight: 15, height: 14, width: 14, background: '#BFCFE2', borderRadius: 10 }}/>
                       <div onClick={() => {
                         this.setState({
                           backgroundColor: '#CCE1FF',
+                        }, () => {
+                          this.props.onStateChange(this.props.id, this.state);
                         });
                         editor.style.backgroundColor = '#CCE1FF';
                       }} style={{ marginRight: 15, height: 14, width: 14, background: '#CCE1FF', borderRadius: 10 }}/>
                       <div onClick={() => {
                         this.setState({
                           backgroundColor: '#B5D3FF',
+                        }, () => {
+                          this.props.onStateChange(this.props.id, this.state);
                         });
                         editor.style.backgroundColor = '#B5D3FF';
                       }} style={{ marginRight: 15, height: 14, width: 14, background: '#B5D3FF', borderRadius: 10 }}/>
                       <div onClick={() => {
                         this.setState({
                           backgroundColor: '#FFE2C5',
+                        }, () => {
+                          this.props.onStateChange(this.props.id, this.state);
                         });
                         editor.style.backgroundColor = '#FFE2C5';
                       }} style={{ marginRight: 15, height: 14, width: 14, background: '#FFE2C5', borderRadius: 10 }}/>
                       <div onClick={() => {
                         this.setState({
                           backgroundColor: '#FFD70B',
+                        }, () => {
+                          this.props.onStateChange(this.props.id, this.state);
                         });
                         editor.style.backgroundColor = '#FFD70B';
                       }} style={{ height: 14, width: 14, background: '#FFD70B', borderRadius: 10 }}/>
@@ -336,7 +412,13 @@ class RichEditorExample extends React.Component {
                 )}
               >
                 <div style={{ marginRight: 22 }}>
-                  <img src={Bg}/>
+                  {
+                    this.state.backgroundColor === '#fff' ? (
+                      <img src={Bg} />
+                    ) : (
+                      <img src={BgActive} />
+                    )
+                  }
                   <div style={{ height: 20, position: 'relative' }}>
                     <div style={{
                       position: 'absolute',
@@ -349,16 +431,44 @@ class RichEditorExample extends React.Component {
                   </div>
                 </div>
               </Dropdown>
-              <img style={{ marginRight: 22 }} src={Left} onClick={() => {
-                this.setState({
-                  align: 'left'
-                })
-              }}/>
-              <img src={Center} onClick={() => {
-                this.setState({
-                  align: 'center'
-                })
-              }}/>
+              {
+                this.state.align === 'left' ? (
+                  <img style={{ marginRight: 22 }} src={LeftActive} onClick={() => {
+                    this.setState({
+                      align: 'left'
+                    }, () => {
+                      this.props.onStateChange(this.props.id, this.state);
+                    })
+                  }} />
+                ) : (
+                  <img style={{ marginRight: 22 }} src={Left} onClick={() => {
+                    this.setState({
+                      align: 'left'
+                    }, () => {
+                      this.props.onStateChange(this.props.id, this.state);
+                    })
+                  }} />
+                )
+              }
+              {
+                this.state.align === 'center' ? (
+                  <img src={CenterActive} onClick={() => {
+                    this.setState({
+                      align: 'center'
+                    }, () => {
+                      this.props.onStateChange(this.props.id, this.state);
+                    })
+                  }} />
+                ) : (
+                  <img src={Center} onClick={() => {
+                    this.setState({
+                      align: 'center'
+                    }, () => {
+                      this.props.onStateChange(this.props.id, this.state);
+                    })
+                  }} />
+                )
+              }
             </div>
 
             {
@@ -368,6 +478,8 @@ class RichEditorExample extends React.Component {
                   onClick={() => {
                     this.setState({
                       visibleForStudent: !this.state.visibleForStudent,
+                    }, () => {
+                      this.props.onStateChange(this.props.id, this.state);
                     })
                   }}
                   alt="Copy"
@@ -378,6 +490,8 @@ class RichEditorExample extends React.Component {
                   onClick={() => {
                     this.setState({
                       visibleForStudent: !this.state.visibleForStudent,
+                    }, () => {
+                      this.props.onStateChange(this.props.id, this.state);
                     })
                   }}
                   alt="Copy"
@@ -397,8 +511,8 @@ class RichEditorExample extends React.Component {
           </div>
         </div>
         <div className="content-container">
-          <div className="RichEditor-root">
-            <div className={`${className} ${this.state.blockType}`} onClick={this.focus}>
+          <div ref={this.myRef} className="RichEditor-root">
+            <div ref={this.blockRef} className={`${className} ${this.state.blockType}`} onClick={this.focus}>
               <Editor
                 blockStyleFn={getBlockStyle}
                 customStyleMap={styleMap}
@@ -407,7 +521,6 @@ class RichEditorExample extends React.Component {
                 onChange={this.onChange}
                 onTab={this.onTab}
                 textAlignment={this.state.align}
-                ref="editor"
                 spellCheck={true}
               />
             </div>
@@ -485,8 +598,16 @@ class StyleButton extends React.Component {
 
     return (
       <span className={className} onMouseDown={this.onToggle}>
-              {this.props.label}
-            </span>
+        {(() => {
+          if (this.props.active && this.props.style === 'ITALIC') {
+            return <img src={TextItalicActive} />
+          } else if (this.props.active && this.props.style === 'BOLD') {
+            return <img src={TextBoldActive} alt=""/>
+          } else {
+            return this.props.label;
+          }
+        })()}
+      </span>
     );
   }
 }

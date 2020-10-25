@@ -14,6 +14,10 @@ import {
   DUPLICATE_LESSON,
 } from '@types/lessons';
 
+import {
+  GET_LESSON,
+} from '@types/lesson';
+
 const getCourses = createAction(GET_COURSES);
 const createCourse = createAction(CREATE_COURSE);
 const deleteCourse = createAction(DELETE_COURSE);
@@ -24,6 +28,8 @@ const createLesson = createAction(CREATE_LESSON);
 const deleteLesson = createAction(DELETE_LESSON);
 const duplicateLesson = createAction(DUPLICATE_LESSON);
 
+const getLesson = createAction(GET_LESSON);
+
 export {
   createCourse,
   getCourses,
@@ -33,4 +39,5 @@ export {
   createLesson,
   deleteLesson,
   duplicateLesson,
+  getLesson,
 };

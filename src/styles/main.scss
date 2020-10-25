@@ -16,7 +16,8 @@
 @import "../components/Navbar/navbar";
 @import "../components/ActionCard/actionCard";
 
-@import "src/components/Block/block";
+@import "../components/Block/block";
+@import "../components/common/PagesController/pages-controller";
 
 @import "../routes/courses/courses";
 @import "../routes/course/course";

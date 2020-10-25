@@ -1,12 +1,13 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { useDrop } from 'react-dnd';
 
 import Block from '@components/Block';
 
 import EmptyConstructor from '@assets/images/Constructor/empty-constructor.svg';
 
-const Constructor = () => {
-  const [blocks, setBlocks] = useState([]);
+const Constructor = ({ pageIndex, onStateChange, pageState }) => {
+  debugger;
+  const [blocks, setBlocks] = useState(pageState);
 
   const handleDrop = useCallback((name) => {
     setBlocks([...blocks, {
@@ -16,8 +17,8 @@ const Constructor = () => {
     }]);
   }, [blocks]);
 
-  const [props, drop] = useDrop({
-    accept: ['image', 'audio', 'video', 'editor', 'action-editor', 'link', 'vocabulary'],
+  const [, drop] = useDrop({
+    accept: ['image', 'audio', 'video', 'editor', 'action-editor', 'link', 'vocabulary', 'test', 'exercise'],
     drop({ type }) {
       handleDrop(type);
     },
@@ -28,6 +29,10 @@ const Constructor = () => {
     }),
   });
 
+  useEffect(() => {
+    setBlocks(pageState);
+  }, [blocks]);
+
   const handleCopyBlock = (type, content) => {
     setBlocks([...blocks, {
       id: blocks[blocks.length - 1].id + 1,
@@ -35,6 +40,10 @@ const Constructor = () => {
       content,
     }]);
   };
+
+  useEffect(() => {
+    onStateChange(blocks, pageIndex);
+  }, [blocks, pageIndex]);
 
   const handleChangeStateBlock = (id, state) => {
     setBlocks(blocks.map((block) => {

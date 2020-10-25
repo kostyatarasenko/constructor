@@ -150,6 +150,9 @@ const ImageBlock = ({ onStateChange, id, preloadedState }) => {
           className="block-description-area"
           placeholder="Описание изображения"
           onChange={handleChangeDescription}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
           value={state.description}
         />
                   <div className="block-actions-area">

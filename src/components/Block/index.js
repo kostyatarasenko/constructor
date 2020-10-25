@@ -7,6 +7,8 @@ import EditorBlock from '@components/Block/EditorBlock';
 import DoubleEditorBlock from '@components/Block/DoubleEditorBlock';
 import LinkBlock from '@components/Block/LinkBlock';
 import VocabularyBlock from '@components/Block/VocabularyBlock';
+import TestBlock from '@components/Block/TestBlock';
+import ExerciseBlock from '@components/Block/exerciseBlock';
 
 import Move from '@assets/images/blocks/move.svg';
 import Copy from '@assets/images/blocks/copy.svg';
@@ -52,6 +54,22 @@ const Block = ({ actions: { onCopy, onDelete }, type, onStateChange, id, preload
       case 'vocabulary':
         return (
           <VocabularyBlock
+            id={id}
+            onStateChange={onStateChange}
+            preloadedState={preloadedState}
+          />
+        );
+      case 'test':
+        return (
+          <TestBlock
+            id={id}
+            onStateChange={onStateChange}
+            preloadedState={preloadedState}
+          />
+        );
+      case 'exercise':
+        return (
+          <ExerciseBlock
             id={id}
             onStateChange={onStateChange}
             preloadedState={preloadedState}

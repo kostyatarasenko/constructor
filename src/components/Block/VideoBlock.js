@@ -133,6 +133,9 @@ const VideoBlock = ({ onStateChange, id, preloadedState }) => {
                   ...state,
                   submitted: false,
                   videoLink: '',
+                  isVisibleDescription: false,
+                  isVisibleForStudent: true,
+                  description: '',
                 })
               }}
               src={Cross}

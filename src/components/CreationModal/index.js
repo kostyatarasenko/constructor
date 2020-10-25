@@ -42,10 +42,10 @@ const CreationModal = ({
   const [state, setState] = useState(initialState);
 
   const handleChooseImage = useCallback((image) => {
-    setState({
-      ...state,
+    setState((prevState) => ({
+      ...prevState,
       image,
-    });
+    }));
   }, [state]);
 
   const handleChooseField = useCallback(function(value) {

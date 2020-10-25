@@ -17,15 +17,18 @@ const RouteController = () => {
     <Router>
       <Switch>
         <Route
+          exact
           path="/courses"
           component={Courses}
         />
         <Route
+          exact
           path="/course/:courseId"
           component={Course}
         />
         <Route
-          path="/lesson/:lessonId"
+          exact
+          path="/course/lesson/:courseId/:lessonId"
           component={Lesson}
         />
       </Switch>
