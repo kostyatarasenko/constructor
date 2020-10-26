@@ -1,22 +1,22 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import {
-  GET_LESSON_FULFILLED,
-  GET_LESSON_REJECTED,
+  GET_CONSTRUCTOR_FULFILLED,
+  GET_CONSTRUCTOR_REJECTED,
 } from '@types/lesson';
 
 const lessonReducer = createReducer({
-  lesson: [],
+  lesson: null,
   currentCourse: null,
   error: null,
 }, {
-  [GET_LESSON_FULFILLED]: (state, { payload: { lesson, currentCourse } }) => ({
+  [GET_CONSTRUCTOR_FULFILLED]: (state, { payload: { lesson, currentCourse } }) => ({
     ...state,
     lesson,
     currentCourse,
     error: null,
   }),
-  [GET_LESSON_REJECTED]: (state, { payload }) => ({
+  [GET_CONSTRUCTOR_REJECTED]: (state, { payload }) => ({
     ...state,
     error: payload,
   }),

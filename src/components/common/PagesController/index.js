@@ -6,8 +6,21 @@ const PagesController = ({ pages, onCreatePage }) => {
     <div className="pages-controller">
       <div className="pages-blocks">
         {pages.map(({ id, name }) => (
-          <div key={id} className="page-block">
-            {name}
+          <div key={id} className="page-block" style={{ background: id === pages[pages.length - 1].id ? '#fff' : '' }}>
+            {
+              name ? (
+                <span className="first">
+                  {name}
+                </span>
+              ) : (
+                <span className="first">
+                  <br/>
+                </span>
+              )
+            }
+            <span className="second">
+              (дублирует сверху)
+            </span>
           </div>
         ))}
       </div>

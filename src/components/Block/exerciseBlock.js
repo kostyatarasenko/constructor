@@ -13,7 +13,9 @@ import ReactTooltip from 'react-tooltip';
 const ExerciseBlock = ({ onStateChange, id, preloadedState }) => {
   const ref = useRef(null);
   const initialState = {
-    variant: 1,
+    variant: 0,
+    condition: '',
+    text: '',
   };
 
   const [state, setState] = useState(preloadedState || initialState);
@@ -91,46 +93,89 @@ const ExerciseBlock = ({ onStateChange, id, preloadedState }) => {
         )}
       >
         <div className="exercise-type-selector">
-          <span className="exercise-type-selector-text">
-            Выберите тип упражнения
+          <span className="exercise-type-selector-text" style={{ color: state.variant ? '#9ABDFC' : '', fontWeight: state.variant ? 600 : 400 }}>
+            {(() => {
+              if (state.variant === 1) {
+                return 'Перенести слова\\\выражения в пропуски';
+              } else if (state.variant === 2) {
+                return 'Вставьте слово в пропуски';
+              } else if (state.variant === 3) {
+                return 'Поставьте слово в нужную форму';
+              } else if (state.variant === 4) {
+                return 'Составьте предложение из слов';
+              } else {
+                return 'Выберите тип упражнения'
+              }
+            })()}
           </span>
           <img src={ArrowDown} alt=""/>
         </div>
       </Dropdown>
-      <input
-        type="text"
-        className="exercise-input"
-        placeholder="Условие упражнения"
-      />
-      <div className="exercise-input-container">
-        <img data-tip={(() => {
-          if (state.variant === 1) {
-            return 'Запишите в квадратных скобках правильное слово\\выражение\n' +
-              '\n<br />' +
-              'Me [llamo] Alejandro Makovski, soy de Moscú.';
-          } else if (state.variant === 2) {
-
-          } else if (state.variant === 3) {
-
-          } else if (state.variant === 4) {
-
-          }
-        })()} src={Info} alt=""/>
-        <input
-          type="text"
-          className="exercise-input"
-          placeholder="Текст упражнения"
-        />
-      </div>
-      <ReactTooltip
-        style={{
-          textALight: 'left'
-        }}
-        className="course-description-tooltip"
-        arrowColor="transparent"
-        place="right"
-        multiline
-      />
+      {
+        state.variant ? (
+          <>
+            <input
+              type="text"
+              className="exercise-input"
+              placeholder="Условие упражнения"
+              value={state.condition}
+              onChange={(e) => {
+                setState({
+                  ...state,
+                  condition: e.target.value,
+                })
+              }}
+            />
+            <div className="exercise-input-container">
+              <img data-tip={(() => {
+                if (state.variant === 1) {
+                  return 'Напишите текст. Заключите в квадратные скобки слова, которые нужно будет вставить в текст.' +
+                    '<br />' +
+                    '<br />' +
+                    'Me [llamo] Alejandro Makovski, soy de Moscú.';
+                } else if (state.variant === 2) {
+                  return 'Запишите в квадратных скобках правильное слово/выражение' +
+                    '<br />' +
+                    '<br />' +
+                    'Me [llamo] Alejandro Makovski, soy de Moscú.';
+                } else if (state.variant === 3) {
+                  return 'Запишите в квадратных скобках сначала начальную форму слова, слэш, затем правильную форму слова.' +
+                    '<br />' +
+                    '<br />' +
+                    'Me [llamar/llamo] Alejandro Makovski, soy de Moscú.';
+                } else if (state.variant === 4) {
+                  return 'Напишите предложение и разделите слова слэшем. Слова автоматически перемешаются.' +
+                    '<br />' +
+                    '<br />' +
+                    'Me/llamo/Alejandro/Makovski/soy/de/Moscú.';
+                }
+              })()} src={Info} alt=""/>
+              <input
+                type="text"
+                className="exercise-input"
+                placeholder="Текст упражнения"
+                value={state.text}
+                onChange={(e) => {
+                  setState({
+                    ...state,
+                    text: e.target.value,
+                  })
+                }}
+              />
+            </div>
+            <ReactTooltip
+              style={{
+                textALight: 'left',
+                width: 350
+              }}
+              className="course-description-tooltip exercise-tooltip"
+              arrowColor="transparent"
+              place="right"
+              multiline
+            />
+          </>
+        ) : null
+      }
     </div>
   );
 };

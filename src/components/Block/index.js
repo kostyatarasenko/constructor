@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, memo } from 'react';
 
 import ImageBlock from '@components/Block/imageBlock';
 import AudioBlock from '@components/Block/audioBlock';
@@ -140,4 +140,4 @@ const Block = ({ actions: { onCopy, onDelete }, type, onStateChange, id, preload
   );
 };
 
-export default Block;
+export default memo(Block);

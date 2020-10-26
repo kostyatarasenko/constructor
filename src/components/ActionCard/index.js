@@ -32,9 +32,11 @@ const ActionCard = ({
       className="big action"
       onClick={onClick}
     >
-      <div className="card-image-container">
-        <img src={image || useMemo(() => patterns[rand(0, 2)], [])} alt="course" />
-      </div>
+      <div className="card-image-container"
+        style={{
+          backgroundImage: `url(${image || useMemo(() => patterns[rand(0, 2)], [])})`
+        }}
+      />
       <div className="card-description-container">
         <span className="card-title">
           {title}

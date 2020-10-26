@@ -451,7 +451,7 @@ span.exercise-type-selector-text {
   border: 1px solid #C2CFE0;
   width: 500px;
   border-radius: 20px;
-  margin-top: -42px;
+  margin-top: -43px;
   background: #fff;
   display: grid;
   align-items: flex-start;
@@ -517,4 +517,14 @@ span.exercise-type-selector-text {
     margin-top: 0;
     width: calc(100% - 40px);
   }
+}
+
+.multi-line {
+  text-align: left !important;
+}
+
+.course-description-tooltip.exercise-tooltip {
+  font-weight: 600;
+  color: #113A7B;
+  background: #C3CFDE !important;
 }
