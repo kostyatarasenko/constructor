@@ -140,4 +140,4 @@ const Block = ({ actions: { onCopy, onDelete }, type, onStateChange, id, preload
   );
 };
 
-export default memo(Block);
+export default Block;

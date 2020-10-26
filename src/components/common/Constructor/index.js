@@ -96,4 +96,4 @@ const Constructor = ({ pageIndex, onStateChange, pageState }) => {
   );
 };
 
-export default memo(Constructor);
+export default Constructor;

@@ -40,18 +40,18 @@ function* createLesson({ payload: { courseId, lessonId, constructor } }) {
     console.log(course, constructor);
     const updatedCourse = {
       ...course,
-      lessons: course.lessons.map((lesson) => {
-        if (lesson.id !== +lessonId) {
-          return lesson;
+      lessons: course.lessons.map((lessona) => {
+        if (lessona.id !== +lessonId) {
+          return lessona;
         } else {
           return {
-            ...lesson,
+            ...lessona,
             constructor,
           };
         }
       })
     };
-    debugger;
+    yield call(firestore.setDocument, `courses/${courseId}`, updatedCourse);
   } catch (error) {
     // yield put({
     //   type: GET_LESSON_REJECTED,
