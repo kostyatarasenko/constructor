@@ -72,24 +72,24 @@ const Lesson = () => {
 
   useEffect(() => {
     dispatch(getConstructor(params));
-  }, []);
+  }, [dispatch]);
 
   const [pending, setPending] = useState(true);
   const { currentCourse, lesson } = useSelector((store) => store.lesson);
   console.log(currentCourse, lesson);
 
-  const [pages, setPages] = useState(lesson && lesson.constructor.length ? lesson.constructor : [{
+  const [pages, setPages] = useState(() => lesson && lesson.constructor.length ? lesson.constructor : [{
     id: 0,
     name: 'Название страницы',
     pageState: [],
   }]);
-  const [currentPage, setCurrentPage] = useState(lesson && lesson.constructor.length ? lesson.constructor[lesson.constructor.length - 1].id : 0);
+  const [currentPage, setCurrentPage] = useState(() => lesson && lesson.constructor.length ? lesson.constructor[lesson.constructor.length - 1].id : 0);
 
   useEffect(() => {
     if (!pending) {
       dispatch(createConstructor({ ...params, constructor: pages }));
     }
-  }, [pages, pending]);
+  }, [pages, pending, dispatch]);
 
   useEffect(() => {
     if (currentCourse && lesson) {
