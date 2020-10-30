@@ -25,12 +25,17 @@ import Lamp from '@assets/images/blocks/Editor/lamp.svg';
 import Book from '@assets/images/blocks/Editor/book.svg';
 import Eye from '@assets/images/blocks/eye.svg';
 import EyeOff from '@assets/images/blocks/eye-off.svg';
+import {convertFromRaw, convertToRaw} from 'draft-js';
 
 class RichEditorExample extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.props.preloadedState || {
+    this.state = this.props.preloadedState && {
+      ...this.props.preloadedState,
+      editorState: EditorState.createWithContent(convertFromRaw(this.props.preloadedState.rowContent)),
+    } || {
       editorState: EditorState.createEmpty(),
+      rowContent: null,
       align: 'center',
       backgroundColor: '#fff',
       color: 'darkGrey',
@@ -40,10 +45,21 @@ class RichEditorExample extends React.Component {
     this.myRef = React.createRef();
     this.blockRef = React.createRef();
 
-    this.focus = () => this.refs.editor.focus();
-    this.onChange = (editorState) => this.setState({ editorState }, () => {
-      this.props.onStateChange(this.props.id, this.state);
-    });
+    this.onChange = (editorState) => {
+      this.setState({
+        editorState,
+        rowContent: convertToRaw(editorState.getCurrentContent()),
+      }, () => {
+        this.props.onStateChange(this.props.id, {
+          rowContent: this.state.rowContent,
+          align: this.state.align,
+          backgroundColor: this.state.backgroundColor,
+          color: this.state.color,
+          visibleForStudent: this.state.visibleForStudent,
+          blockType: this.state.blockType,
+        });
+      });
+    };
 
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
     this.onTab = (e) => this._onTab(e);
@@ -91,7 +107,14 @@ class RichEditorExample extends React.Component {
     this.setState({
       color: toggledColor,
     }, () => {
-      this.props.onStateChange(this.props.id, this.state);
+      this.props.onStateChange(this.props.id, {
+        rowContent: this.state.rowContent,
+        align: this.state.align,
+        backgroundColor: this.state.backgroundColor,
+        color: this.state.color,
+        visibleForStudent: this.state.visibleForStudent,
+        blockType: this.state.blockType,
+      });
     });
 
     // Let's just allow one color at a time. Turn off all active colors.
@@ -163,7 +186,14 @@ class RichEditorExample extends React.Component {
           this.setState({
             align: 'left'
           }, () => {
-            this.props.onStateChange(this.props.id, this.state);
+            this.props.onStateChange(this.props.id, {
+              rowContent: this.state.rowContent,
+              align: this.state.align,
+              backgroundColor: this.state.backgroundColor,
+              color: this.state.color,
+              visibleForStudent: this.state.visibleForStudent,
+              blockType: this.state.blockType,
+            });
           });
           setTimeout(function () {
             this.toggleColor('blue');
@@ -232,7 +262,14 @@ class RichEditorExample extends React.Component {
                          this.setState({
                            blockType: 'regular'
                          }, () => {
-                           this.props.onStateChange(this.props.id, this.state);
+                           this.props.onStateChange(this.props.id, {
+                             rowContent: this.state.rowContent,
+                             align: this.state.align,
+                             backgroundColor: this.state.backgroundColor,
+                             color: this.state.color,
+                             visibleForStudent: this.state.visibleForStudent,
+                             blockType: this.state.blockType,
+                           });
                          });
                        }}
                   >
@@ -246,7 +283,14 @@ class RichEditorExample extends React.Component {
                          this.setState({
                            blockType: 'rule'
                          }, () => {
-                           this.props.onStateChange(this.props.id, this.state);
+                           this.props.onStateChange(this.props.id, {
+                             rowContent: this.state.rowContent,
+                             align: this.state.align,
+                             backgroundColor: this.state.backgroundColor,
+                             color: this.state.color,
+                             visibleForStudent: this.state.visibleForStudent,
+                             blockType: this.state.blockType,
+                           });
                          });
                        }}
                   >
@@ -348,7 +392,14 @@ class RichEditorExample extends React.Component {
                         this.setState({
                           backgroundColor: '#fff',
                         }, () => {
-                          this.props.onStateChange(this.props.id, this.state);
+                          this.props.onStateChange(this.props.id, {
+                            rowContent: this.state.rowContent,
+                            align: this.state.align,
+                            backgroundColor: this.state.backgroundColor,
+                            color: this.state.color,
+                            visibleForStudent: this.state.visibleForStudent,
+                            blockType: this.state.blockType,
+                          });
                         });
                         editor.style.backgroundColor = '#fff';
                       }} style={{
@@ -363,7 +414,14 @@ class RichEditorExample extends React.Component {
                         this.setState({
                           backgroundColor: '#F3F5F9',
                         },() => {
-                          this.props.onStateChange(this.props.id, this.state);
+                          this.props.onStateChange(this.props.id, {
+                            rowContent: this.state.rowContent,
+                            align: this.state.align,
+                            backgroundColor: this.state.backgroundColor,
+                            color: this.state.color,
+                            visibleForStudent: this.state.visibleForStudent,
+                            blockType: this.state.blockType,
+                          });
                         });
                         editor.style.backgroundColor = '#F3F5F9';
                       }} style={{ marginRight: 15, height: 14, width: 14, background: '#F3F5F9', borderRadius: 10 }}/>
@@ -371,7 +429,14 @@ class RichEditorExample extends React.Component {
                         this.setState({
                           backgroundColor: '#BFCFE2',
                         }, () => {
-                          this.props.onStateChange(this.props.id, this.state);
+                          this.props.onStateChange(this.props.id, {
+                            rowContent: this.state.rowContent,
+                            align: this.state.align,
+                            backgroundColor: this.state.backgroundColor,
+                            color: this.state.color,
+                            visibleForStudent: this.state.visibleForStudent,
+                            blockType: this.state.blockType,
+                          });
                         });
                         editor.style.backgroundColor = '#BFCFE2';
                       }} style={{ marginRight: 15, height: 14, width: 14, background: '#BFCFE2', borderRadius: 10 }}/>
@@ -379,7 +444,14 @@ class RichEditorExample extends React.Component {
                         this.setState({
                           backgroundColor: '#CCE1FF',
                         }, () => {
-                          this.props.onStateChange(this.props.id, this.state);
+                          this.props.onStateChange(this.props.id, {
+                            rowContent: this.state.rowContent,
+                            align: this.state.align,
+                            backgroundColor: this.state.backgroundColor,
+                            color: this.state.color,
+                            visibleForStudent: this.state.visibleForStudent,
+                            blockType: this.state.blockType,
+                          });
                         });
                         editor.style.backgroundColor = '#CCE1FF';
                       }} style={{ marginRight: 15, height: 14, width: 14, background: '#CCE1FF', borderRadius: 10 }}/>
@@ -387,7 +459,14 @@ class RichEditorExample extends React.Component {
                         this.setState({
                           backgroundColor: '#B5D3FF',
                         }, () => {
-                          this.props.onStateChange(this.props.id, this.state);
+                          this.props.onStateChange(this.props.id, {
+                            rowContent: this.state.rowContent,
+                            align: this.state.align,
+                            backgroundColor: this.state.backgroundColor,
+                            color: this.state.color,
+                            visibleForStudent: this.state.visibleForStudent,
+                            blockType: this.state.blockType,
+                          });
                         });
                         editor.style.backgroundColor = '#B5D3FF';
                       }} style={{ marginRight: 15, height: 14, width: 14, background: '#B5D3FF', borderRadius: 10 }}/>
@@ -395,7 +474,14 @@ class RichEditorExample extends React.Component {
                         this.setState({
                           backgroundColor: '#FFE2C5',
                         }, () => {
-                          this.props.onStateChange(this.props.id, this.state);
+                          this.props.onStateChange(this.props.id, {
+                            rowContent: this.state.rowContent,
+                            align: this.state.align,
+                            backgroundColor: this.state.backgroundColor,
+                            color: this.state.color,
+                            visibleForStudent: this.state.visibleForStudent,
+                            blockType: this.state.blockType,
+                          });
                         });
                         editor.style.backgroundColor = '#FFE2C5';
                       }} style={{ marginRight: 15, height: 14, width: 14, background: '#FFE2C5', borderRadius: 10 }}/>
@@ -403,7 +489,14 @@ class RichEditorExample extends React.Component {
                         this.setState({
                           backgroundColor: '#FFD70B',
                         }, () => {
-                          this.props.onStateChange(this.props.id, this.state);
+                          this.props.onStateChange(this.props.id, {
+                            rowContent: this.state.rowContent,
+                            align: this.state.align,
+                            backgroundColor: this.state.backgroundColor,
+                            color: this.state.color,
+                            visibleForStudent: this.state.visibleForStudent,
+                            blockType: this.state.blockType,
+                          });
                         });
                         editor.style.backgroundColor = '#FFD70B';
                       }} style={{ height: 14, width: 14, background: '#FFD70B', borderRadius: 10 }}/>
@@ -437,7 +530,14 @@ class RichEditorExample extends React.Component {
                     this.setState({
                       align: 'left'
                     }, () => {
-                      this.props.onStateChange(this.props.id, this.state);
+                      this.props.onStateChange(this.props.id, {
+                        rowContent: this.state.rowContent,
+                        align: this.state.align,
+                        backgroundColor: this.state.backgroundColor,
+                        color: this.state.color,
+                        visibleForStudent: this.state.visibleForStudent,
+                        blockType: this.state.blockType,
+                      });
                     })
                   }} />
                 ) : (
@@ -445,7 +545,14 @@ class RichEditorExample extends React.Component {
                     this.setState({
                       align: 'left'
                     }, () => {
-                      this.props.onStateChange(this.props.id, this.state);
+                      this.props.onStateChange(this.props.id, {
+                        rowContent: this.state.rowContent,
+                        align: this.state.align,
+                        backgroundColor: this.state.backgroundColor,
+                        color: this.state.color,
+                        visibleForStudent: this.state.visibleForStudent,
+                        blockType: this.state.blockType,
+                      });
                     })
                   }} />
                 )
@@ -456,7 +563,14 @@ class RichEditorExample extends React.Component {
                     this.setState({
                       align: 'center'
                     }, () => {
-                      this.props.onStateChange(this.props.id, this.state);
+                      this.props.onStateChange(this.props.id, {
+                        rowContent: this.state.rowContent,
+                        align: this.state.align,
+                        backgroundColor: this.state.backgroundColor,
+                        color: this.state.color,
+                        visibleForStudent: this.state.visibleForStudent,
+                        blockType: this.state.blockType,
+                      });
                     })
                   }} />
                 ) : (
@@ -464,7 +578,14 @@ class RichEditorExample extends React.Component {
                     this.setState({
                       align: 'center'
                     }, () => {
-                      this.props.onStateChange(this.props.id, this.state);
+                      this.props.onStateChange(this.props.id, {
+                        rowContent: this.state.rowContent,
+                        align: this.state.align,
+                        backgroundColor: this.state.backgroundColor,
+                        color: this.state.color,
+                        visibleForStudent: this.state.visibleForStudent,
+                        blockType: this.state.blockType,
+                      });
                     })
                   }} />
                 )
@@ -479,7 +600,14 @@ class RichEditorExample extends React.Component {
                     this.setState({
                       visibleForStudent: !this.state.visibleForStudent,
                     }, () => {
-                      this.props.onStateChange(this.props.id, this.state);
+                      this.props.onStateChange(this.props.id, {
+                        rowContent: this.state.rowContent,
+                        align: this.state.align,
+                        backgroundColor: this.state.backgroundColor,
+                        color: this.state.color,
+                        visibleForStudent: this.state.visibleForStudent,
+                        blockType: this.state.blockType,
+                      });
                     })
                   }}
                   alt="Copy"
@@ -491,7 +619,14 @@ class RichEditorExample extends React.Component {
                     this.setState({
                       visibleForStudent: !this.state.visibleForStudent,
                     }, () => {
-                      this.props.onStateChange(this.props.id, this.state);
+                      this.props.onStateChange(this.props.id, {
+                        rowContent: this.state.rowContent,
+                        align: this.state.align,
+                        backgroundColor: this.state.backgroundColor,
+                        color: this.state.color,
+                        visibleForStudent: this.state.visibleForStudent,
+                        blockType: this.state.blockType,
+                      });
                     })
                   }}
                   alt="Copy"

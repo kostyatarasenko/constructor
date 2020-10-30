@@ -46,7 +46,11 @@ function* createLesson({ payload: { courseId, lesson }}) {
     if (!course.lessons.length) {
       updatedLessons = [{
         id: 0,
-        constructor: [],
+        constructor: [{
+          id: 0,
+          name: 'Название страницы',
+          pageState: [],
+        }],
         ...lesson,
       }];
     } else {
@@ -54,7 +58,11 @@ function* createLesson({ payload: { courseId, lesson }}) {
         ...course.lessons,
         {
           id: course.lessons[course.lessons.length - 1].id++,
-          constructor: [],
+          constructor: [{
+            id: 0,
+            name: 'Название страницы',
+            pageState: [],
+          }],
           ...lesson,
         }
       ];

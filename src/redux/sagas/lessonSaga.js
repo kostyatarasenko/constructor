@@ -51,6 +51,7 @@ function* createLesson({ payload: { courseId, lessonId, constructor } }) {
         }
       })
     };
+    // debugger;
     yield call(firestore.setDocument, `courses/${courseId}`, updatedCourse);
   } catch (error) {
     // yield put({

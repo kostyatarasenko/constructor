@@ -70,37 +70,41 @@ const Lesson = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
+  useEffect(() => () => {
+    debugger;
+    setTimeout(() => setPages(null), 0);
+  }, []);
+
   useEffect(() => {
+    setPending(true);
     dispatch(getConstructor(params));
   }, [dispatch]);
 
-  const [pending, setPending] = useState(true);
   const { currentCourse, lesson } = useSelector((store) => store.lesson);
-  console.log(currentCourse, lesson);
+  debugger;
 
-  const [pages, setPages] = useState(() => lesson && lesson.constructor.length ? lesson.constructor : [{
-    id: 0,
-    name: 'Название страницы',
-    pageState: [],
-  }]);
-  const [currentPage, setCurrentPage] = useState(() => lesson && lesson.constructor.length ? lesson.constructor[lesson.constructor.length - 1].id : 0);
+  const [pages, setPages] = useState(null);
+  const [currentPage, setCurrentPage] = useState(null);
+  const [pending, setPending] = useState(false);
 
   useEffect(() => {
-    if (!pending) {
-      dispatch(createConstructor({ ...params, constructor: pages }));
+    if (lesson) {
+      setPages(lesson.constructor);
+      setCurrentPage(lesson.constructor[lesson.constructor.length - 1].id);
     }
-  }, [pages, pending, dispatch]);
+  }, [lesson, currentCourse]);
 
   useEffect(() => {
-    if (currentCourse && lesson) {
+    if (pages) {
+      dispatch(createConstructor({ ...params, constructor: pages }));
       setPending(false);
     }
-  }, [currentCourse, lesson]);
+  }, [pages, dispatch]);
 
   return (
     <>
       {
-        lesson && lesson.constructor.length ? (
+        pages && !pending  ? (
           <DndProvider backend={HTML5Backend}>
             <Navbar
               title={currentCourse ? currentCourse.name : ''}
