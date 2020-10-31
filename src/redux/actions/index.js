@@ -17,6 +17,7 @@ import {
 import {
   GET_CONSTRUCTOR,
   CREATE_CONSTRUCTOR,
+  RESET_CONSTRUCTOR,
 } from '@types/lesson';
 
 const getCourses = createAction(GET_COURSES);
@@ -31,6 +32,7 @@ const duplicateLesson = createAction(DUPLICATE_LESSON);
 
 const getConstructor = createAction(GET_CONSTRUCTOR);
 const createConstructor = createAction(CREATE_CONSTRUCTOR);
+const resetConstructor = createAction(RESET_CONSTRUCTOR);
 
 export {
   createCourse,
@@ -43,4 +45,5 @@ export {
   duplicateLesson,
   getConstructor,
   createConstructor,
+  resetConstructor,
 };

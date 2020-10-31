@@ -63,7 +63,7 @@
       padding: 10px 15px;
       border: 2px solid #C2CFE0;
       border-radius: 30px;
-      font-family: "Open Sans";
+      font-family: "Open Sans", sans-serif;
       font-size: 14px;
       color: #90A4BD;
 
@@ -87,7 +87,7 @@
         height: 80px;
         padding: 20px;
         border: 1px solid #C2CFE0;
-        font-family: "Open Sans";
+        font-family: "Open Sans", sans-serif;
         font-size: 16px;
         color: #90A4BD;
         resize: none;
@@ -115,7 +115,7 @@
 .RichEditor-root {
   background: #fff;
   border: 1px solid #C2CFE0;
-  font-family: 'Open-Sans', serif;
+  font-family: 'Open-Sans', sans-serif;
   font-size: 14px;
   padding: 0 15px 15px 14px;
   width: 100%;
@@ -131,7 +131,7 @@
   font-size: 16px;
 
   * {
-    font-family: "Open Sans", serif;
+    font-family: "Open Sans", sans-serif;
   }
 }
 
@@ -192,7 +192,7 @@ textarea.block-description-area-link {
   height: 60px;
   padding: 20px 10px 10px 10px;
   border: 1px solid #C2CFE0;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   color: #414752;
   resize: none;
 
@@ -344,7 +344,7 @@ span.double-editor-dropdown {
   margin-top: 20px;
 
   span.test-title-switch {
-    font-family: "Open Sans", serif;
+    font-family: "Open Sans", sans-serif;
     color: #90A4BD;
     font-size: 14px;
     margin-left: 15px;
@@ -378,7 +378,7 @@ span.double-editor-dropdown {
     border: 0;
     background: transparent;
     padding-right: 22px;
-    font-family: "Open Sans", serif;
+    font-family: "Open Sans", sans-serif;
     color: #414752;
     font-weight: 600;
     font-size: 16px;
@@ -407,7 +407,7 @@ span.double-editor-dropdown {
     width: 100%;
     border: 0;
     background: transparent;
-    font-family: "Open Sans", serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     font-size: 14px;
     color: #414752;
@@ -442,7 +442,7 @@ span.double-editor-dropdown {
 }
 
 span.exercise-type-selector-text {
-  font-family: "Open Sans", serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   color: #90A4BD;
 }
@@ -472,7 +472,7 @@ span.exercise-type-selector-text {
   span {
     color: #90A4BD;
     font-size: 12px;
-    font-family: "Open Sans", serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     margin-left: 15px;
   }
@@ -489,7 +489,7 @@ span.exercise-type-selector-text {
   border: 1px solid #C2CFE0;
   color: #C2CFE0;
   font-size: 16px;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   width: calc(100% - 80px);
   margin-top: 30px;
 

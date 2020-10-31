@@ -3,6 +3,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import {
   GET_CONSTRUCTOR_FULFILLED,
   GET_CONSTRUCTOR_REJECTED,
+  RESET_CONSTRUCTOR,
 } from '@types/lesson';
 
 const lessonReducer = createReducer({
@@ -20,6 +21,12 @@ const lessonReducer = createReducer({
     ...state,
     error: payload,
   }),
+  [RESET_CONSTRUCTOR]: (state) => ({
+    ...state,
+    lesson: null,
+    currentCourse: null,
+    error: null,
+  })
 });
 
 export default lessonReducer;

@@ -195,16 +195,18 @@ class RichEditorExample extends React.Component {
               blockType: this.state.blockType,
             });
           });
-          setTimeout(function () {
+          if (RichUtils.getCurrentBlockType(this.state.editorState) === 'unstyled') {
             this.toggleColor('blue');
             this.toggleBlockType('header-two');
-          }.bind(this), 0);
+          }
         }
       } else if (this.state.blockType === 'regular') {
         const reg = this.blockRef.current;
         if (reg.children.length === 2) {
-          this.toggleColor('blue');
-          this.toggleBlockType('header-two');
+          if (RichUtils.getCurrentBlockType(this.state.editorState) === 'header-two') {
+            this.toggleColor('blue');
+            this.toggleBlockType('header-two');
+          }
           for (let i = 0; i < reg.children.length; i++) {
             if (reg.children[i].tagName === 'DIV') {
               const ss = reg.children[i];

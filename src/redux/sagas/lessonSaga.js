@@ -37,7 +37,6 @@ function* createLesson({ payload: { courseId, lessonId, constructor } }) {
   try {
     const courseSnapshot = yield call(firestore.getDocument, `courses/${courseId}`);
     const course = courseSnapshot.data();
-    console.log(course, constructor);
     const updatedCourse = {
       ...course,
       lessons: course.lessons.map((lessona) => {

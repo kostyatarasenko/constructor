@@ -27,15 +27,16 @@ const testBlock = ({ onStateChange, id, preloadedState }) => {
     onStateChange(id, state);
   }, [state]);
 
-  useEffect(() => {
+  const handleChangeVarious = () => {
     setState((prevState) => ({
       ...prevState,
+      isVarious: !state.isVarious,
       answers: prevState.answers.map((item) => ({
         ...item,
         selected: false,
       }))
-    }))
-  }, [state.isVarious]);
+    }));
+  };
 
   return (
     <div className="aaa">
@@ -72,12 +73,7 @@ const testBlock = ({ onStateChange, id, preloadedState }) => {
           onColor="#C7DBFF"
           activeBoxShadow={0}
           checkedIcon={<></>}
-          onChange={() => {
-            setState({
-              ...state,
-              isVarious: !state.isVarious
-            })
-          }} checked={state.isVarious} />
+          onChange={handleChangeVarious} checked={state.isVarious} />
           <span className="test-title-switch">
             Несколько правильных ответов
           </span>
@@ -129,7 +125,6 @@ const testBlock = ({ onStateChange, id, preloadedState }) => {
                               selected: false,
                             };
                           }
-                          return answer;
                         })
                       })
                     }}

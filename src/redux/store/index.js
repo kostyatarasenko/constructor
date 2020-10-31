@@ -16,7 +16,7 @@ const store = configureStore({
     blacklist: ['error', 'course', 'courses', 'lesson'],
   }, rootReducer),
   middleware: [
-    _isDev_ && logger,
+    // _isDev_ && logger,
     sagaMiddleware,
   ],
 });

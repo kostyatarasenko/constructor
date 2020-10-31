@@ -1,11 +1,11 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import DragCard from '@components/common/DragCard';
 import Constructor from '@components/common/Constructor';
 import PagesController from '@components/common/PagesController';
-import { getConstructor, createConstructor } from '@actions';
+import { getConstructor, createConstructor, resetConstructor } from '@actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -26,6 +26,22 @@ import { useGoogleLogin } from 'react-google-login';
 import Navbar from '@components/Navbar';
 import { useHistory } from 'react-router-dom';
 import construct from '@babel/runtime/helpers/esm/construct';
+
+function debounce(f, ms) {
+
+  let isCooldown = false;
+
+  return function() {
+    if (isCooldown) return;
+
+    f.apply(this, arguments);
+
+    isCooldown = true;
+
+    setTimeout(() => isCooldown = false, ms);
+  };
+
+}
 
 const Lesson = () => {
   const { push } = useHistory();
@@ -70,18 +86,12 @@ const Lesson = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
-  useEffect(() => () => {
-    debugger;
-    setTimeout(() => setPages(null), 0);
-  }, []);
-
   useEffect(() => {
     setPending(true);
     dispatch(getConstructor(params));
   }, [dispatch]);
 
   const { currentCourse, lesson } = useSelector((store) => store.lesson);
-  debugger;
 
   const [pages, setPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(null);
@@ -91,20 +101,24 @@ const Lesson = () => {
     if (lesson) {
       setPages(lesson.constructor);
       setCurrentPage(lesson.constructor[lesson.constructor.length - 1].id);
+      setPending(false);
     }
   }, [lesson, currentCourse]);
 
   useEffect(() => {
     if (pages) {
       dispatch(createConstructor({ ...params, constructor: pages }));
-      setPending(false);
     }
-  }, [pages, dispatch]);
+  }, [pages, dispatch, pending]);
+
+  useEffect(() => () => {
+    dispatch(resetConstructor());
+  }, []);
 
   return (
     <>
       {
-        pages && !pending  ? (
+        pages && !pending ? (
           <DndProvider backend={HTML5Backend}>
             <Navbar
               title={currentCourse ? currentCourse.name : ''}
