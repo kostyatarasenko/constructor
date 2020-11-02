@@ -21,12 +21,12 @@ import ReduxSagaFirebase from 'redux-saga-firebase';
 // } = process.env;
 
 const firebaseApp = firebase.initializeApp({
-  apiKey: "AIzaSyDVTd9iR5V3MXg4cMpVHTnsGEuzrjrdowo",
-  authDomain: "teacher-escuela.firebaseapp.com",
-  databaseURL: "https://teacher-escuela.firebaseio.com",
-  projectId: "teacher-escuela",
-  storageBucket: "teacher-escuela.appspot.com",
-  messagingSenderId: "968636488645",
+  apiKey: "",
+  authDomain: "",
+  databaseURL: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
 });
 
 const sagaFirebase = new ReduxSagaFirebase(firebaseApp);
